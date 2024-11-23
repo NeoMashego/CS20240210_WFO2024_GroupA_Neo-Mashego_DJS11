@@ -32,12 +32,22 @@ const DataFetch = function Components(){
         return <h2>{error}</h2>
     }
 
-    //const SeasonsDisplay = 
+    const seasonsDisplay = data.seasons.map(s => <div key={s.s}>
+                                                        <h3>{s.title}</h3>
+                                                        <div>
+                                                            {s.episodes.map(e => 
+                                                            <div key={e.e}>
+                                                                <h5>Episode {e.e}: {e.title}</h5>
+                                                                <p>{e.description}</p>
+                                                            </div>)}
+                                                        </div>
+                                                    </div>)
 
     return(
         <div>
             <h1>{data.title}</h1>
             <p>{data.description}</p>
+            <div>{seasonsDisplay}</div>
         </div>
     )
 }
