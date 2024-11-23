@@ -3,6 +3,7 @@ import {Link} from "react-router-dom"
 
 const FetchData = function myCompound(){
     const [data, setData] = useState([]);               //set data functionality
+    const [loading, setLoading] = useState(true)
     const [error, setError] = useState("");             //set error functionality
 
     useEffect( () =>{
@@ -13,16 +14,21 @@ const FetchData = function myCompound(){
             }
             return response.json()})            //return response converted to json
         .then((data) => {
-             
             const sortedData = data.sort((a, b) => {            // Sort the podcasts alphabetically by title
-        return a.title.toLowerCase().localeCompare(b.title.toLowerCase())});    // Ensure case-insensitive comparison
+            return a.title.toLowerCase().localeCompare(b.title.toLowerCase())});    // Ensure case-insensitive comparison
             setData(sortedData);
+            setLoading(false);
         })
         .catch((error) =>{
             setError('Podcast failed to load.')
+            setLoading(false);
             //console.error(error)
         })
     }, [])      //empty dependency array ensures it runs only once after the component mounts
+
+    if (loading) {
+        return <div>Loading...</div>;  // Display loading message while fetching
+      }
 
     if(error){
         return <h1>{error}</h1>
