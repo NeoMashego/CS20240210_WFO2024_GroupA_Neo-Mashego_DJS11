@@ -1,4 +1,4 @@
-import {BrowserRouter, Routes, Route, Link, NavLink} from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom"
 import Home from './Pages/Home.jsx'
 import './App.css'
 
@@ -10,7 +10,7 @@ function App() {
         <Link to="/"> Home </Link>
       </nav>
       <Routes>
-        <Link path="/" element={< Home/>} />
+        <Route path="/" element={< Home/>} />
       </Routes>
     </BrowserRouter>
   )

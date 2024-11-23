@@ -1,7 +1,43 @@
 import { useEffect, useState } from "react"
 
-function Home(){
+const FetchData = function myCompound(){
+    const [data, setData] = useState([]);               //set data functionality
+    const [error, setError] = useState("");             //set error functionality
 
+    useEffect( () =>{
+        fetch('https://podcast-api.netlify.app/')
+        .then(response =>{
+            if(!response.ok){
+                throw new Error('Podcast failed to load.')
+            }
+            return response.json()})            //return response converted to json
+        .then((data) => {
+            setData(data);
+        })
+        .catch((error) =>{
+            setError('Podcast failed to load.')
+            //console.error(error)
+        })
+    }, [])      //empty dependency array ensures it runs only once after the component mounts
+
+    if(error){
+        return <h1>{error}</h1>
+    }
+
+    const displayDataFetched = data.map(d => <div key={d.id}>
+                                                    <p>{d.id}. {d.title}</p>
+                                                </div>)
+                        
+    return(
+        <div>
+            <h1>Podcast</h1>
+            {displayDataFetched}
+        </div>
+    )
+}
+
+function Home(){
+    return(< FetchData/>)
 }
 
 export default Home
