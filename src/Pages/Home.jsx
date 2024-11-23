@@ -12,7 +12,10 @@ const FetchData = function myCompound(){
             }
             return response.json()})            //return response converted to json
         .then((data) => {
-            setData(data);
+             
+            const sortedData = data.sort((a, b) => {            // Sort the podcasts alphabetically by title
+        return a.title.toLowerCase().localeCompare(b.title.toLowerCase())});    // Ensure case-insensitive comparison
+            setData(sortedData);
         })
         .catch((error) =>{
             setError('Podcast failed to load.')
@@ -25,7 +28,7 @@ const FetchData = function myCompound(){
     }
 
     const displayDataFetched = data.map(d => <div key={d.id}>
-                                                    <p>{d.id}. {d.title}</p>
+                                                    <p>{d.title}</p>
                                                 </div>)
                         
     return(
