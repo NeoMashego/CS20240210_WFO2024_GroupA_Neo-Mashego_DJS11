@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import {Link} from "react-router-dom"
 
 const FetchData = function myCompound(){
     const [data, setData] = useState([]);               //set data functionality
@@ -28,7 +29,9 @@ const FetchData = function myCompound(){
     }
 
     const displayDataFetched = data.map(d => <div key={d.id}>
+                                                    <Link to={`/${d.id}`} >
                                                     <p>{d.title}</p>
+                                                    </Link>
                                                 </div>)
                         
     return(
