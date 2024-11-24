@@ -22,10 +22,23 @@ a{
   color: #2b2d42;
 }
 
+nav{
+  font-size: 1rem;
+  background-color: #d3d3d3;
+  padding: 10px;
+}
+
+nav a{
+  padding-left: 1rem;
+  font-weight: bold;
+}
+
 nav a:hover{
   text-decoration: underline;
   color: #e5383b;
   font-weight: bolder;
+  font-size: 1.3rem;
+  cursor: pointer;
 }
 
 .loadingDiv{
