@@ -27,11 +27,14 @@ const FetchData = function myCompound(){
     }, [])      //empty dependency array ensures it runs only once after the component mounts
 
     if (loading) {
-        return <div>Loading...</div>;  // Display loading message while fetching
+        return <div className="loadingDiv">                           {/*Display loading message while fetching*/}
+                <div className="loading"></div>
+                <h2>Loading...</h2>
+            </div> 
       }
 
     if(error){
-        return <h1>{error}</h1>
+        return <h1 className="error">{error}</h1>
     }
 
     const displayDataFetched = data.map(d => <div key={d.id}>

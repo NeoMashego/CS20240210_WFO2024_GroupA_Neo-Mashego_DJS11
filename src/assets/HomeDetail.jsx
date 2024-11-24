@@ -25,11 +25,15 @@ const DataFetch = function Components(){
     })
 
     if(loading){
-        return <div>Loading...</div>
+        return <div className="loadingDiv">
+                <div className="loading"></div>
+                <h2>Loading...</h2>
+            </div>
+        
     }
 
     if(error){
-        return <h2>{error}</h2>
+        return <h2 className="error">{error}</h2>
     }
 
     const seasonsDisplay = data.seasons.map(s => <div key={s.s}>
