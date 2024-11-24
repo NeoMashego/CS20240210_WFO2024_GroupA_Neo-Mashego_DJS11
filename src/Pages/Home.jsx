@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import {Link} from "react-router-dom"
+import './Home.css'
 
 const FetchData = function myCompound(){
     const [data, setData] = useState([]);               //set data functionality
@@ -37,14 +38,18 @@ const FetchData = function myCompound(){
         return <h1 className="error">{error}</h1>
     }
 
-    const displayDataFetched = data.map(d => <div key={d.id}>
-                                                    <Link to={`/${d.id}`} >
-                                                    <p>{d.title}</p>
-                                                    </Link>
-                                                </div>)
+    const displayDataFetched = <div className="podcast">     {/* styling the entire div */}
+                                                {data.map(d =>
+                                                    <div className="podcastBlock" key={d.id}>
+                                                        <Link to={`/${d.id}`} >
+                                                            <img className="podcastImg" src={d.image} alt={d.title} />
+                                                            <div className="podcastDesc">{d.title}</div>
+                                                        </Link>
+                                                </div>)}
+                                                </div>
                         
     return(
-        <div>
+        <div className="homePage">
             <h1>Podcast</h1>
             {displayDataFetched}
         </div>

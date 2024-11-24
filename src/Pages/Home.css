@@ -1,0 +1,33 @@
+.homePage{
+    margin: 0 20px 0 20px;
+    text-align: center;
+}
+
+.podcast{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+    justify-items: center;
+}
+
+.podcastBlock{
+    padding: 20px;
+}
+
+.podcastBlock:hover{
+    background-color: #e5383b;
+    border-radius: 5px;
+}
+
+.podcastImg{
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+a:hover{
+    text-decoration: underline;
+    color: #2b2d42;
+    font-weight: bolder;
+}
