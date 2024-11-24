@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom"
 import Home from './Pages/Home.jsx'
-import HomeDetail from "./assets/HomeDetail.jsx"
+import HomeDetail from "./Pages/HomeDetail.jsx"
 import './App.css'
 
 function App() {

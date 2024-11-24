@@ -42,9 +42,12 @@ const DataFetch = function Components(){
                                                         <h3>{s.title}</h3>
                                                         <div>
                                                             {s.episodes.map(e => 
-                                                            <div className="episodesBlock" key={e.e}>
-                                                                <h5>Episode {e.e}: {e.title}</h5>
+                                                            <div className="episodesBlock" key={e.episode}>
+                                                                <h5>Episode: {e.e} {e.title}</h5>
                                                                 <p>{e.description}</p>
+                                                                <audio controls>
+                                                                    <source src={e.file} type="audio.mpeg" />
+                                                                </audio>
                                                             </div>)}
                                                         </div>
                                                     </div>)}
