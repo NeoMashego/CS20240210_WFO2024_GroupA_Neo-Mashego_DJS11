@@ -1,0 +1,57 @@
+.homeDetails{
+    margin: 0 20px 0 20px;
+}
+
+.detailsHeading{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;  
+}
+
+.detailsHeading img{
+    width: 15rem;
+    height: 15rem;
+    margin-top: 1rem;
+}
+
+.description{
+    line-height: 1.6;
+    margin: 0 5px;
+    padding: 0 15px;
+}
+
+.seasonsDisplay{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 1fr);
+    grid-template-rows: auto auto;
+    gap: 1.6rem;
+    margin-top: 10px;
+    justify-items: center;
+}
+
+.seasonsDisplay h3{
+    background-color: #e5383b;
+    display: inline-block;
+    padding: 8px;
+    border-radius: 10px;
+    color: #edf2f4;
+    margin-left: 1rem;
+}
+
+.episodesBlock{
+    background-color: #d3d3d3;
+    padding: 1rem;
+    margin: 0 1rem 1.6rem 1rem;
+}
+
+.episodesBlock h5{
+    font-weight: bolder;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+.episodesBlock p{
+    line-height: 1.6;
+}
