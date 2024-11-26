@@ -38,7 +38,7 @@ const DataFetch = function Components(){
         return <h2 className="error">{error}</h2>
     }
 
-    //seasonID = seasons.id
+    //seasonID = seasons.season
 
     //Filter Season Button
     const handleSeasonSelect = (seasonId) => {
@@ -52,19 +52,19 @@ const DataFetch = function Components(){
 
     //Season Button
     const seasonsButton = data.seasons
-                            //.filter(s => s.id > 0)
                             .map(s => (
-                                <button key={s.id} onClick={ () => handleSeasonSelect(s.id)}
-                                className={selectedSeason === s.title ? 'selected' : ''}
+                                <button key={s.season} onClick={ () => {handleSeasonSelect(s.season)}}
+                                className={selectedSeason === s.season ? 'selected' : ''}
                                 > {s.title} </button>
                             ))
 
 
     const seasonsDisplay = data.seasons
-                            .filter(s => selectedSeason === null || selectedSeason === s.id)
-                                            .map(s => <div className="seasonsDisplay" key={s.id}>
+                            .filter(s => selectedSeason === null || selectedSeason === s.season)
+                                            .map(s => <div className="seasonsDisplay" key={s.season}>
                                                         <h3>{s.title}</h3>
-                                                        <div>
+                                                        <img className="seasonsImg" src={s.image} />
+                                                        {/*Episodes mapped */}
                                                             {s.episodes.map(e => 
                                                             <div className="episodesBlock" key={e.episode}>
                                                                 <h5>Episode {e.episode}: {e.title}</h5>
@@ -73,8 +73,10 @@ const DataFetch = function Components(){
                                                                     <source src={e.file} type="audio.mpeg" />
                                                                 </audio>
                                                             </div>)}
-                                                        </div>
                                                     </div>)
+    
+    console.log(seasonsDisplay);
+    console.log(selectedSeason)
 
     return(
         <div className="homeDetails">
@@ -83,7 +85,7 @@ const DataFetch = function Components(){
                 <h1>{data.title}</h1>
             </div>
             <p className="desciption">{data.description}</p>
-            <div>{seasonsButton}</div>
+            <div className="seasonButtonsBlock">{seasonsButton}</div>
             {seasonsDisplay}
         </div>
     )
