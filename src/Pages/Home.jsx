@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react"
-import {Link} from "react-router-dom"
+import {Link, useSearchParams} from "react-router-dom"
 import './Home.css'
 
 const FetchData = function myCompound(){
-    const [data, setData] = useState([]);               //set data functionality
-    const [loading, setLoading] = useState(true)
+   
+    //set functionality for Home page
+    const [data, setData] = useState([]);               //set to hold data functionality
+    const [loading, setLoading] = useState(true)        //set loading functionality
     const [error, setError] = useState("");             //set error functionality
+    const [searchParams, setSearchParams] = useSearchParams()
 
+    //get genre filter from the searchParams
+    const genreFilter = searchParams.get("genre");
+
+    //Fetch podcast data
     useEffect( () =>{
         fetch('https://podcast-api.netlify.app/')
         .then(response =>{
@@ -15,8 +22,13 @@ const FetchData = function myCompound(){
             }
             return response.json()})            //return response converted to json
         .then((data) => {
-            const sortedData = data.sort((a, b) => {            // Sort the podcasts alphabetically by title
+
+            // Sort the podcasts alphabetically by title
+            const sortedData = data.sort((a, b) => {
             return a.title.toLowerCase().localeCompare(b.title.toLowerCase())});    // Ensure case-insensitive comparison
+            
+            // Filter podcasts by genre if a genre is selected
+            //const filteredData = genreFilter ? sortedData.filter(d => d.genre === genreFilter) : sortedData;
             setData(sortedData);
             setLoading(false);
         })
@@ -27,6 +39,8 @@ const FetchData = function myCompound(){
         })
     }, [])      //empty dependency array ensures it runs only once after the component mounts
 
+
+    //if statements for conditions set
     if (loading) {
         return <div className="loadingDiv">                           {/*Display loading message while fetching*/}
                 <div className="loading"></div>
@@ -38,6 +52,8 @@ const FetchData = function myCompound(){
         return <h1 className="error">{error}</h1>
     }
 
+
+    //displaying podcast
     const displayDataFetched = <div className="podcast">     {/* styling the entire div */}
                                                 {data.map(d =>
                                                     <div className="podcastBlock" key={d.id}>
@@ -48,9 +64,23 @@ const FetchData = function myCompound(){
                                                 </div>)}
                                                 </div>
                         
+    
+    const genresList = <div>
+                            <Link to="genre/1">Personal Growth</Link>
+                            <Link to="genre/2">Investigative Journalism</Link>
+                            <Link to="genre/3">History</Link>
+                            <Link to="genre/4">Compedy</Link>
+                            <Link to="genre/5">Entertainment</Link>
+                            <Link to="genre/6">Business</Link>
+                            <Link to="genre/7">Fiction</Link>
+                            <Link to="genre/8">News</Link>
+                            <Link to="genre/9">Kids and Family</Link>
+                        </div>
+                        
     return(
         <div className="homePage">
             <h1>Podcast</h1>
+            {genresList}
             {displayDataFetched}
         </div>
     )
