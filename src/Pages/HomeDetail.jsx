@@ -6,6 +6,7 @@ const DataFetch = function Components(){
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
+    const [selectedSeason, setSelectedSeason] = useState(null);  // State to store the selected season
     const {id} = useParams();       //retrieves URL path = id
 
     useEffect( () =>{
@@ -23,7 +24,7 @@ const DataFetch = function Components(){
             setError('ID details not found.')
             setLoading(false)
         }))
-    })
+    }, [id])
 
     if(loading){
         return <div className="loadingDiv">
@@ -37,21 +38,43 @@ const DataFetch = function Components(){
         return <h2 className="error">{error}</h2>
     }
 
-    const seasonsDisplay = <div className="seasonsDisplay">
-                                                    {data.seasons.map(s => <div key={s.s}>
+    //seasonID = seasons.id
+
+    //Filter Season Button
+    const handleSeasonSelect = (seasonId) => {
+        if (selectedSeason === seasonId) {
+            setSelectedSeason(null);  // Deselect if the same season is clicked
+        } else {
+            setSelectedSeason(seasonId);  // Set the selected season
+        }
+    };
+
+
+    //Season Button
+    const seasonsButton = data.seasons
+                            //.filter(s => s.id > 0)
+                            .map(s => (
+                                <button key={s.id} onClick={ () => handleSeasonSelect(s.id)}
+                                className={selectedSeason === s.title ? 'selected' : ''}
+                                > {s.title} </button>
+                            ))
+
+
+    const seasonsDisplay = data.seasons
+                            .filter(s => selectedSeason === null || selectedSeason === s.id)
+                                            .map(s => <div className="seasonsDisplay" key={s.id}>
                                                         <h3>{s.title}</h3>
                                                         <div>
                                                             {s.episodes.map(e => 
                                                             <div className="episodesBlock" key={e.episode}>
-                                                                <h5>Episode: {e.e} {e.title}</h5>
+                                                                <h5>Episode {e.episode}: {e.title}</h5>
                                                                 <p>{e.description}</p>
                                                                 <audio controls>
                                                                     <source src={e.file} type="audio.mpeg" />
                                                                 </audio>
                                                             </div>)}
                                                         </div>
-                                                    </div>)}
-                                            </div>
+                                                    </div>)
 
     return(
         <div className="homeDetails">
@@ -60,6 +83,7 @@ const DataFetch = function Components(){
                 <h1>{data.title}</h1>
             </div>
             <p className="desciption">{data.description}</p>
+            <div>{seasonsButton}</div>
             {seasonsDisplay}
         </div>
     )
