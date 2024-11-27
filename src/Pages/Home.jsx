@@ -68,6 +68,14 @@ const FetchData = function myCompound(){
         > {g.title} </button>
     ))*/
 
+        const dateString = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        }
 
     //displaying podcast
     const displayDataFetched = <div className="podcast">     {/* styling the entire div */}
@@ -76,6 +84,7 @@ const FetchData = function myCompound(){
                                                         <Link to={`/${d.id}`} >
                                                             <img className="podcastImg" src={d.image} alt={d.title} />
                                                             <div className="podcastDesc">{d.title}</div>
+                                                            <div className="podcastDate">Updated: {new Date(d.updated).toLocaleString('en-GB', dateString)}</div>
                                                         </Link>
                                                 </div>)}
                                                 </div>
