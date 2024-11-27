@@ -9,6 +9,7 @@ const DataFetch = function Components(){
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const [selectedSeason, setSelectedSeason] = useState(null);  // State to store the selected season
+    const [favorites, setFavorites] = useState([]);  // State to store favorite episodes
     const {id} = useParams();       //retrieves URL path = id
 
     useEffect( () =>{
@@ -29,6 +30,13 @@ const DataFetch = function Components(){
         }))
     }, [id])
 
+
+       //save favourite episodes to localStorage
+    useEffect( ()=>{
+        localStorage.setItem('Favorites:', JSON.stringify(favorites))
+            }, [favorites])
+
+
     if(loading){
         return <div className="loadingDiv">
                 <div className="loading"></div>
@@ -42,7 +50,6 @@ const DataFetch = function Components(){
     }
 
     //seasonID = seasons.season
-
     //Filter Season Button
     const handleSeasonSelect = (seasonId) => {
         if (selectedSeason === seasonId) {
@@ -51,6 +58,15 @@ const DataFetch = function Components(){
             setSelectedSeason(seasonId);  // Set the selected season
         }
     };
+
+    const handleFavouriteToggle = (episode) =>{
+        const isFavourite = favorites.some(fav => fav.episode === episode.episode);
+        if(isFavourite){
+            setFavorites(favorites.filter(fav => fav.episode !== episode.episode))
+        } else{
+            setFavorites([...favorites, episode])
+        }
+    }
 
 
     //Season Button
@@ -71,6 +87,10 @@ const DataFetch = function Components(){
                                                             {s.episodes.map(e => 
                                                             <div className="episodesBlock" key={e.episode}>
                                                                 <h5>Episode {e.episode}: {e.title}</h5>
+                                                                <button
+                                                                    onClick={ ()=> handleFavouriteToggle(e)} 
+                                                                    className={favorites.some(fav => fav.episode === e.episode) ? 'favourite' : ''} >
+                                                                    {favorites.some(fav=> fav.episode === e.episode) ? 'Unfavourite' : 'Favourite'}</button>
                                                                 <p>{e.description}</p>
                                                                 <audio controls>
                                                                     <source src={e.file} type="audio.mpeg" />
