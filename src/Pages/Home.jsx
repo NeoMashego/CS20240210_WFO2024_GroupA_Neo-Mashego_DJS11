@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import {Link, useSearchParams} from "react-router-dom"
+import Genres from "../assets/Genres"
 import './Home.css'
 
 const FetchData = function myCompound(){
@@ -8,6 +9,7 @@ const FetchData = function myCompound(){
     const [data, setData] = useState([]);               //set to hold data functionality
     const [loading, setLoading] = useState(true)        //set loading functionality
     const [error, setError] = useState("");             //set error functionality
+    const [selectGenre, setSelectGenre] = useState(null)   //set to store selected genre
     const [searchParams, setSearchParams] = useSearchParams()
 
     //get genre filter from the searchParams
@@ -35,7 +37,7 @@ const FetchData = function myCompound(){
         .catch((error) =>{
             setError('Podcast failed to load.')
             setLoading(false);
-            //console.error(error)
+            console.error(error)
         })
     }, [])      //empty dependency array ensures it runs only once after the component mounts
 
@@ -53,6 +55,20 @@ const FetchData = function myCompound(){
     }
 
 
+    /*handle genres selection
+    const handleGenreSelect = (genreID) => {
+        // Update the URL with the selected genre
+        setSearchParams({ genre: genreID });}
+
+    //Season Button
+    const genresButton = data.genres
+    .map(g => (
+        <button key={g.id} onClick={ () => {handleGenreSelect(g.id)}}
+        className={selectGenre === g.id ? 'selected' : ''}
+        > {g.title} </button>
+    ))*/
+
+
     //displaying podcast
     const displayDataFetched = <div className="podcast">     {/* styling the entire div */}
                                                 {data.map(d =>
@@ -63,9 +79,11 @@ const FetchData = function myCompound(){
                                                         </Link>
                                                 </div>)}
                                                 </div>
+
+                                                console.log(data)
                         
     
-    const genresList = <div>
+/*    const genresList = <div>
                             <Link to="genre/1">Personal Growth</Link>
                             <Link to="genre/2">Investigative Journalism</Link>
                             <Link to="genre/3">History</Link>
@@ -75,12 +93,11 @@ const FetchData = function myCompound(){
                             <Link to="genre/7">Fiction</Link>
                             <Link to="genre/8">News</Link>
                             <Link to="genre/9">Kids and Family</Link>
-                        </div>
+                        </div>*/
                         
     return(
         <div className="homePage">
             <h1>Podcast</h1>
-            {genresList}
             {displayDataFetched}
         </div>
     )
