@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom"
 import './HomeDetail.css'
 
 const DataFetch = function Components(){
+
+    //set functionality for homeDetails
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
@@ -23,6 +25,7 @@ const DataFetch = function Components(){
         .catch((error => {
             setError('ID details not found.')
             setLoading(false)
+            console.error('Check error', error)
         }))
     }, [id])
 
@@ -74,10 +77,8 @@ const DataFetch = function Components(){
                                                                 </audio>
                                                             </div>)}
                                                     </div>)
-    
-    console.log(seasonsDisplay);
-    console.log(selectedSeason)
-
+                                                    
+    //Return values
     return(
         <div className="homeDetails">
             <div className="detailsHeading">

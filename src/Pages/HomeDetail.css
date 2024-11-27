@@ -59,13 +59,12 @@ button:hover{
     background-color: #f08080;
 }
 
-button .selected{
+button.selected{
     background-color: #e5383b;
-    border: 2px solid #e5383b;
 }
 
-button .selected:hover{
-    background-color: #ffffff;
+button.selected:hover{
+    background-color: #f08080;
 }
 
 .episodesBlock{
