@@ -7,6 +7,7 @@ const FetchData = function myCompound(){
    
     //set functionality for Home page
     const [data, setData] = useState([]);               //set to hold data functionality
+    const [genres, setGenres] = useState([])
     const [loading, setLoading] = useState(true)        //set loading functionality
     const [error, setError] = useState("");             //set error functionality
     const [selectGenre, setSelectGenre] = useState(null)   //set to store selected genre
@@ -24,14 +25,18 @@ const FetchData = function myCompound(){
             }
             return response.json()})            //return response converted to json
         .then((data) => {
-
+            console.log(data)
             // Sort the podcasts alphabetically by title
             const sortedData = data.sort((a, b) => {
             return a.title.toLowerCase().localeCompare(b.title.toLowerCase())});    // Ensure case-insensitive comparison
-            
+
+            //setup unique genres from podcasts
+            const mapGenres = [...new Set(data.map((d)=> d.genre))]
+            console.log('Genres Map:', mapGenres)
             // Filter podcasts by genre if a genre is selected
             //const filteredData = genreFilter ? sortedData.filter(d => d.genre === genreFilter) : sortedData;
             setData(sortedData);
+            setGenres(mapGenres)
             setLoading(false);
         })
         .catch((error) =>{
@@ -54,19 +59,26 @@ const FetchData = function myCompound(){
         return <h1 className="error">{error}</h1>
     }
 
+    console.log(data.genres)    //testing to see this data component
 
-    /*handle genres selection
+    //handle genres selection
     const handleGenreSelect = (genreID) => {
         // Update the URL with the selected genre
-        setSearchParams({ genre: genreID });}
+        setSearchParams({ genre: genreID });
+        setSelectGenre(genreID)}
+
+    //filter podcast
+    const filterPodcasts = genreFilter ? data.filter((d)=> d.genre === genreFilter) : data
 
     //Season Button
-    const genresButton = data.genres
-    .map(g => (
-        <button key={g.id} onClick={ () => {handleGenreSelect(g.id)}}
-        className={selectGenre === g.id ? 'selected' : ''}
-        > {g.title} </button>
-    ))*/
+    const genresButton = genres.map(g => (
+        <button key={g} onClick={ () => {handleGenreSelect(g)}}
+        className={selectGenre === g ? 'selected' : ''}
+        > {g} </button>
+    ))
+
+    console.log(genres) //data undefined when called
+    //console.log(genre)  data does not exist
 
         const dateString = {
             year: 'numeric',
@@ -79,7 +91,7 @@ const FetchData = function myCompound(){
 
     //displaying podcast
     const displayDataFetched = <div className="podcast">     {/* styling the entire div */}
-                                                {data.map(d =>
+                                                {filterPodcasts.map(d =>
                                                     <div className="podcastBlock" key={d.id}>
                                                         <Link to={`/${d.id}`} >
                                                             <img className="podcastImg" src={d.image} alt={d.title} />
@@ -107,6 +119,7 @@ const FetchData = function myCompound(){
     return(
         <div className="homePage">
             <h1>Podcast</h1>
+            {genresButton}
             {displayDataFetched}
         </div>
     )
