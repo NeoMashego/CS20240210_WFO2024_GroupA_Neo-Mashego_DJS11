@@ -30,10 +30,18 @@ const DataFetch = function Components(){
         }))
     }, [id])
 
+    //load favorites when component mounts
+    useEffect( ()=>{
+        const savedFavorites = JSON.parse(localStorage.getItem('Favorites')) || []
+        setFavorites(savedFavorites)
+    }, [])
+
 
        //save favourite episodes to localStorage
     useEffect( ()=>{
-        localStorage.setItem('Favorites:', JSON.stringify(favorites))
+        if(favorites.length > 0){
+            localStorage.setItem('Favorites:', JSON.stringify(favorites))
+        }
             }, [favorites])
 
 
@@ -59,10 +67,10 @@ const DataFetch = function Components(){
         }
     };
 
-    const handleFavouriteToggle = (episode) =>{
-        const isFavourite = favorites.some(fav => fav.episode === episode.episode);
-        if(isFavourite){
-            setFavorites(favorites.filter(fav => fav.episode !== episode.episode))
+    const handleFavoriteToggle = (episode) =>{
+        const isFavorite = favorites.some(fav => fav.episode === episode.title);    //check based on title
+        if(isFavorite){
+            setFavorites(favorites.filter(fav => fav.episode !== episode.title))    //remove based on title
         } else{
             setFavorites([...favorites, episode])
         }
@@ -88,9 +96,9 @@ const DataFetch = function Components(){
                                                             <div className="episodesBlock" key={e.episode}>
                                                                 <h5>Episode {e.episode}: {e.title}</h5>
                                                                 <button
-                                                                    onClick={ ()=> handleFavouriteToggle(e)} 
-                                                                    className={favorites.some(fav => fav.episode === e.episode) ? 'favourite' : ''} >
-                                                                    {favorites.some(fav=> fav.episode === e.episode) ? 'Unfavourite' : 'Favourite'}</button>
+                                                                    onClick={ ()=> handleFavoriteToggle(e)} 
+                                                                    className={favorites.some(fav => fav.title === e.title) ? 'favorite' : ''} >
+                                                                    {favorites.some(fav=> fav.title === e.title) ? 'Unfavorite' : 'Favorite'}</button>
                                                                 <p>{e.description}</p>
                                                                 <audio controls>
                                                                     <source src={e.file} type="audio.mpeg" />
