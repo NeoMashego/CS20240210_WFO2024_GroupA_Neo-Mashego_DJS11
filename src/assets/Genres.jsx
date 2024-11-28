@@ -11,7 +11,19 @@ const GenreComponent = () => {
 
     const url = "https://podcast-api.netlify.app/";
 
-    // Fetching data in useEffect hook
+    const genreMap = {
+        1: "Personal Growth",
+        2: "Investigative Journalism",
+        3: "History",
+        4: "Comedy",
+        5: "Entertainment",
+        6: "Business",
+        7: "Fiction",
+        8: "News",
+        9: "Kids and Family",
+    }
+
+    
     useEffect(() => {
         const fetchData = async (url) => {
             try {
@@ -19,7 +31,7 @@ const GenreComponent = () => {
                 const response = await fetch(url);
                 
                 if (!response.ok) {
-                    throw new Error("Failed to fetch data"); // Handle fetch errors
+                    throw new Error("Genre Not Found"); // Handle fetch errors
                 }
 
                 const previews = await response.json();
@@ -37,15 +49,16 @@ const GenreComponent = () => {
 
                 // Convert the Set to an array and update the data state
                 setData([...genresSet]);
-                console.log(...genresSet)
-                setLoading(false); // Set loading to false after data is fetched
+                //console.log(...genresSet)     check genresSet array
+                setLoading(false);
             } catch (error) {
-                setError(error.message); // If an error occurs, set the error state
-                setLoading(false); // Stop loading even if there's an error
+                setError('Genre Not Found.');
+                setLoading(false); 
+                console.error('Genre not found', error)
             }
         };
 
-        fetchData(url); // Call the fetchData function
+        fetchData(url);
     }, [url]); // Dependency array, triggers the effect when URL changes
 
     // Render loading, error, or the list of genres
@@ -54,17 +67,21 @@ const GenreComponent = () => {
     }
 
     if (error) {
-        return <p>Error: {error}</p>;
+        return <p>{error}</p>;
     }
 
     return (
         <div>
             <ul>
-                {data.map((genre, index) => (
-                    <li key={index}>
-                        <Link to={`/genre/${genre}`}>{genre}</Link>
+                {data.map((genreId, index) => {
+                    const genreText = genreMap[genreId] || "Unknown Genre";
+                    return(
+                        <li key={index}>
+                        <Link to={`/genre/${genreId}`}>{genreText}</Link>
                     </li>
-                ))}
+                    )
+                }
+                )}
             </ul>
         </div>
     );
