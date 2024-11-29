@@ -21,6 +21,8 @@ const DisplayFavorites = () =>{
             }
     }, [])
 
+
+    //if statements for set conditions
     if(loading){
         return <div className="loadingDiv">
                     <div className="loading"></div>
@@ -32,21 +34,21 @@ const DisplayFavorites = () =>{
         return <h1>{error}</h1>
     }
     
-
     //there are no favourites 
     if(favorites.length === 0){
         return <h1>User has no favorite episodes yet.</h1>
     }
 
+
     return(
             <div className="favoritesBox">
                 <h2>Your Favorite Episodes</h2>
-                    {favorites.map((e, index)=>(
-                        <div key={index} className="favoritesItem">
-                            <h5>Episode {e.episode}: {e.title}</h5>
-                            <p>{e.description}</p>
+                    {favorites.map((f)=>(
+                        <div key={f.title} className="favoritesItem">
+                            <h5>Episode {f.episode}: {f.title}</h5>
+                            <p>{f.description}</p>
                             <audio controls>
-                                <source src={e.file} type="audio.mpeg" />
+                                <source src={f.file} type="audio.mpeg" />
                             </audio>
                         </div>
                     ))}

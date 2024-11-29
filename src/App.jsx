@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom"
 import Home from './Pages/Home.jsx'
 import HomeDetail from "./Pages/HomeDetail.jsx"
-import Favorites from "./Pages/Favourites.jsx"
+import Favorites from "./Pages/Favorites.jsx"
 import Genres from "./assets/Genres.jsx"
 import './App.css'
 
