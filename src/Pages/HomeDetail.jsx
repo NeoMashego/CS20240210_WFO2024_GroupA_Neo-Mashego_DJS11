@@ -55,7 +55,11 @@ const DataFetch = function Components({favorites, setFavorites}){
 
     const handleFavoriteToggle = (episode) =>{
         const isFavorite = favorites.some(fav => fav.title === episode.title);    //check based on title
-        const updateFavorites = isFavorite ? favorites.filter(fav => fav.episode !== episode.episode) : [...favorites, episode]     //ternary operator 
+        const updatedEpisode = {
+            ...episode,  // Spread the existing episode details
+            dateAdded: new Date().toISOString() // Add dateAdded as the current date and time
+        };
+        const updateFavorites = isFavorite ? favorites.filter(fav => fav.episode !== episode.episode) : [...favorites, updatedEpisode]     //ternary operator 
 
         setFavorites(updateFavorites)
         localStorage.setItem('Favorites', JSON.stringify(updateFavorites))
