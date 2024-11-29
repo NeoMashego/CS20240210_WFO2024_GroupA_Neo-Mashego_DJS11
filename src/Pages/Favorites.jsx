@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import './Favorites.css'
 
 const DisplayFavorites = ( { favorites, setFavorites }) =>{
 
@@ -38,7 +38,7 @@ const DisplayFavorites = ( { favorites, setFavorites }) =>{
     return(
             <div className="favoritesPage">
                 <h1>Your Favorite Episodes</h1>
-                <div className="filter-buttons">
+                <div className="filterButtons">
                     <button onClick={() => filterAndSortFavorites("most-recent")}>Most Recent</button>
                     <button onClick={() => filterAndSortFavorites("least-recent")}>Least Recent</button>
                     <button onClick={() => filterAndSortFavorites("a-z")}>A-Z</button>
