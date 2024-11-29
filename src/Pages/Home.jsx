@@ -7,14 +7,8 @@ const FetchData = function myCompound(){
    
     //set functionality for Home page
     const [data, setData] = useState([]);               //set to hold data functionality
-    const [genres, setGenres] = useState([])
     const [loading, setLoading] = useState(true)        //set loading functionality
     const [error, setError] = useState("");             //set error functionality
-    const [selectGenre, setSelectGenre] = useState(null)   //set to store selected genre
-    const [searchParams, setSearchParams] = useSearchParams()
-
-    //get genre filter from the searchParams
-    const genreFilter = searchParams.get("genre");
 
     //Fetch podcast data
     useEffect( () =>{
@@ -30,13 +24,7 @@ const FetchData = function myCompound(){
             const sortedData = data.sort((a, b) => {
             return a.title.toLowerCase().localeCompare(b.title.toLowerCase())});    // Ensure case-insensitive comparison
 
-            //setup unique genres from podcasts
-            const mapGenres = [...new Set(data.map((d)=> d.genre))]
-            console.log('Genres Map:', mapGenres)
-            // Filter podcasts by genre if a genre is selected
-            //const filteredData = genreFilter ? sortedData.filter(d => d.genre === genreFilter) : sortedData;
             setData(sortedData);
-            setGenres(mapGenres)
             setLoading(false);
         })
         .catch((error) =>{
@@ -59,26 +47,6 @@ const FetchData = function myCompound(){
         return <h1 className="error">{error}</h1>
     }
 
-    console.log(data.genres)    //testing to see this data component
-
-    //handle genres selection
-    const handleGenreSelect = (genreID) => {
-        // Update the URL with the selected genre
-        setSearchParams({ genre: genreID });
-        setSelectGenre(genreID)}
-
-    //filter podcast
-    const filterPodcasts = genreFilter ? data.filter((d)=> d.genre === genreFilter) : data
-
-    //Season Button
-    const genresButton = genres.map(g => (
-        <button key={g} onClick={ () => {handleGenreSelect(g)}}
-        className={selectGenre === g ? 'selected' : ''}
-        > {g} </button>
-    ))
-
-    console.log(genres) //data undefined when called
-    //console.log(genre)  data does not exist
 
         const dateString = {
             year: 'numeric',
@@ -91,7 +59,7 @@ const FetchData = function myCompound(){
 
     //displaying podcast
     const displayDataFetched = <div className="podcast">     {/* styling the entire div */}
-                                                {filterPodcasts.map(d =>
+                                                {data.map(d =>
                                                     <div className="podcastBlock" key={d.id}>
                                                         <Link to={`/${d.id}`} >
                                                             <img className="podcastImg" src={d.image} alt={d.title} />
@@ -100,26 +68,12 @@ const FetchData = function myCompound(){
                                                         </Link>
                                                 </div>)}
                                                 </div>
-
-                                                console.log(data)
                         
-    
-/*    const genresList = <div>
-                            <Link to="genre/1">Personal Growth</Link>
-                            <Link to="genre/2">Investigative Journalism</Link>
-                            <Link to="genre/3">History</Link>
-                            <Link to="genre/4">Compedy</Link>
-                            <Link to="genre/5">Entertainment</Link>
-                            <Link to="genre/6">Business</Link>
-                            <Link to="genre/7">Fiction</Link>
-                            <Link to="genre/8">News</Link>
-                            <Link to="genre/9">Kids and Family</Link>
-                        </div>*/
                         
     return(
         <div className="homePage">
             <h1>Podcast</h1>
-            {genresButton}
+            < Genres/>
             {displayDataFetched}
         </div>
     )
