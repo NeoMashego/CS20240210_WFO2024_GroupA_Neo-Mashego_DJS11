@@ -2,14 +2,13 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import './HomeDetail.css'
 
-const DataFetch = function Components(){
+const DataFetch = function Components({favorites, setFavorites}){
 
     //set functionality for homeDetails
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const [selectedSeason, setSelectedSeason] = useState(null);  // State to store the selected season
-    const [favorites, setFavorites] = useState([]);  // State to store favorite episodes
     const {id} = useParams();       //retrieves URL path = id
 
     useEffect( () =>{
@@ -30,19 +29,6 @@ const DataFetch = function Components(){
         }))
     }, [id])    //runs when id renders
 
-    //load favorites when component mounts
-    useEffect( ()=>{
-        const savedFavorites = JSON.parse(localStorage.getItem('Favorites')) || []
-        setFavorites(savedFavorites)
-    }, [])  //runs when there are changes?
-
-
-       //save favourite episodes to localStorage
-    useEffect( ()=>{
-        if(favorites.length > 0){
-            localStorage.setItem('Favorites:', JSON.stringify(favorites))
-        }
-            }, [favorites])
 
 
     if(loading){
@@ -68,12 +54,11 @@ const DataFetch = function Components(){
     };
 
     const handleFavoriteToggle = (episode) =>{
-        const isFavorite = favorites.some(fav => fav.episode === episode.title);    //check based on title
-        if(isFavorite){
-            setFavorites(favorites.filter(fav => fav.episode !== episode.title))    //remove based on title
-        } else{
-            setFavorites([...favorites, episode])
-        }
+        const isFavorite = favorites.some(fav => fav.title === episode.title);    //check based on title
+        const updateFavorites = isFavorite ? favorites.filter(fav => fav.episode !== episode.episode) : [...favorites, episode]     //ternary operator 
+
+        setFavorites(updateFavorites)
+        localStorage.setItem('Favorites', JSON.stringify(updateFavorites))
     }
 
 
@@ -101,7 +86,7 @@ const DataFetch = function Components(){
                                                                     {favorites.some(fav=> fav.title === e.title) ? 'Unfavorite' : 'Favorite'}</button>
                                                                 <p>{e.description}</p>
                                                                 <audio controls>
-                                                                    <source src={e.file} type="audio.mpeg" />
+                                                                    <source src={e.file} type="audio/mpeg" />
                                                                 </audio>
                                                             </div>)}
                                                     </div>)
@@ -120,9 +105,9 @@ const DataFetch = function Components(){
     )
 }
 
-function HomeDetail(){
+function HomeDetail({favorites, setFavorites}){
     return(
-        <DataFetch />
+        <DataFetch favorites={favorites} setFavorites={setFavorites} />
     )
 }
 
