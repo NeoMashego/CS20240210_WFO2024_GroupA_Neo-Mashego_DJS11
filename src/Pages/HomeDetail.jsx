@@ -28,13 +28,13 @@ const DataFetch = function Components(){
             setLoading(false)
             console.error('Check error', error)
         }))
-    }, [id])
+    }, [id])    //runs when id renders
 
     //load favorites when component mounts
     useEffect( ()=>{
         const savedFavorites = JSON.parse(localStorage.getItem('Favorites')) || []
         setFavorites(savedFavorites)
-    }, [])
+    }, [])  //runs when there are changes?
 
 
        //save favourite episodes to localStorage
