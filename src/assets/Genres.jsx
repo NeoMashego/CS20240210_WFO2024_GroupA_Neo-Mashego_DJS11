@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import './Genres.css'
 
 const Genres = () => {
@@ -11,6 +11,7 @@ const Genres = () => {
     const [selectedGenre, setSelectedGenre] = useState(null)
     const [filteredGenre, setFilteredGenre] = useState([])
     const { id } = useParams(); // Get the id from URL params (though not used in this case)
+    const navigate = useNavigate(); //used for navigating to new gener URL
 
     const url = "https://podcast-api.netlify.app/";
 
@@ -91,19 +92,23 @@ const Genres = () => {
         };
         fetchDataByGenre()
         }
-    }, [selectedGenre]); // Runs when `id` changes (i.e., when a new genre is selected)
+    }, [selectedGenre]); // Runs a new genre is selected
 
-    // Render loading, error, or the list of genres
+    // Render loading, error with if statements for conditions set
     if (loading) {
-        return <p>Loading...</p>;
-    }
+        return <div className="loadingDiv">                         
+                <div className="loading"></div>
+                <h2>Loading...</h2>
+            </div> 
+      }
 
-    if (error) {
-        return <p>{error}</p>;
+    if(error){
+        return <h1 className="error">{error}</h1>
     }
 
     const handleGenreClick = (genreId) =>{
         setSelectedGenre(genreId);
+        navigate(`/genre/${genreId}`)
     }
 
     const dateString = {
